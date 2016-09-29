@@ -12,9 +12,9 @@ if(!($root == $abs_current_dir))
 }
 echo '当前项目绝对路径是： '.$APP_PATH;
 $url_root = $_SERVER['SERVER_NAME'];
-$current_dir_mid = 'http://'.$url_root.$current_dir_in_root;
+$url_current_dir = 'http://'.$url_root.$current_dir_in_root;
 echo '<br>';
-echo '当前目录对应的URL是： '.$current_dir_mid;
+echo '当前目录对应的URL是： '.$url_current_dir;
 echo '<br>------------以上是中间的php文件的输出--------------<br><br>';
 require $APP_PATH."/FilestableModel.class.php";
 ?>
