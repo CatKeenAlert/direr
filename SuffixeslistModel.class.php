@@ -25,7 +25,7 @@ function add_lower_and_upper_nonrepeat_sorted_indexnumbered($arr_origin_2d)
     return $arr_product;
 }
 */
-include_once('ArrayextendModel.class.php');
+include_once(APP_PATH.'ArrayextendModel.class.php');
 $arr_readable_types = call_user_func('add_lower_and_upper_nonrepeat_sorted_indexnumbered', $arr_readable_types_lower_2d);
 //var_dump($arr_readable_types);
 //echo 'I am Suf*.<br>';

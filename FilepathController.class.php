@@ -40,7 +40,7 @@ function get_url_with_url_root($node_clicked)
 }
 $node = $_GET['node'];
 //include('FilesrouterController.class.php');
-echo '<br>'.'hello, I am FilepathController.class.php'.'<br>';
+echo 'hello, I am FilepathController.class.php'.'<br>';
 if(!is_array(get_arr_url_and_abspath_node_clicked($node))){
     die('I have not get the array!');
 }else{

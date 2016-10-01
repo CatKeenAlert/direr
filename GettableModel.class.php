@@ -16,18 +16,18 @@ TABLE;
 
 $abs_current_dir = '/var/www/share.com/develop.share.com/dev-direr';
 $arr_files_names = scandir($abs_current_dir);
-include_once('SuffixeslistModel.class.php');
-include_once('FilesrouterController.class.php');
-include_once('FolderslistModel.class.php');
-include_once('FoldersrouterController.class.php');
+include_once(APP_PATH.'SuffixeslistModel.class.php');
+include_once(APP_PATH.'FilesrouterController.class.php');
+include_once(APP_PATH.'FolderslistModel.class.php');
+include_once(APP_PATH.'FoldersrouterController.class.php');
 foreach ($arr_files_names as $name)
 {
     if(!$name){
        die('have not get $name');
     }else{
-        echo '<br>-------------------------------------------------output-end<br><br><br><br>ouput-start++++++++++++++++++++++++++<br>the name is: ';
-        var_dump($name);
-        echo '<br>';
+        //Those are better sentence to debug, comment it temporary######@@@@@@++++++======echo '<br>-------------------------------------------------output-end<br><br><br><br>ouput-start++++++++++++++++++++++++++<br>the name is: ';
+        //Those are better sentence to debug, comment it temporary######@@@@@@++++++======var_dump($name);
+        //Those are better sentence to debug, comment it temporary######@@@@@@++++++======echo '<br>';
     }
     if(!is_dir($name))
     {
@@ -40,8 +40,8 @@ foreach ($arr_files_names as $name)
         $bool_allow_the_folders_list = true;
         $ahref = call_user_func('get_ahref_this_folder', $name, $arr_readable_folders, $bool_allow_the_folders_list);
     }
-    echo '<br>the $ahref is: ';
-    var_dump($ahref);
+    //Those are better sentence to debug, comment it temporary######@@@@@@++++++======echo '<br>the $ahref is: ';
+    //Those are better sentence to debug, comment it temporary######@@@@@@++++++======var_dump($ahref);
     call_user_func('tail_table_print', $name, $ahref);
 }
 echo '</thead></table>';
