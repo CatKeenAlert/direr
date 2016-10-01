@@ -1,4 +1,5 @@
 <?php
+include_once('/var/www/share.com/develop.share.com/dev-direr/'.'Config.inc.php');
 echo '<br>'.':('.'<br>';
 $nodefrom = $_GET['nodefrom'];
 //####****####****@@@@ if the '$bool_allow_the_folders_list' & '$bool_allow_the_suffixes_list' would be put in the config.inc.php, next two line must be change.

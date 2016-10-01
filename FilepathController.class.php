@@ -1,5 +1,5 @@
 <?php
-require_once('./config.inc.php');
+include_once('/var/www/share.com/develop.share.com/dev-direr/'.'Config.inc.php');
 function get_arr_url_and_abspath_node_clicked($node_clicked)
 {
     if(is_link($node_clicked))

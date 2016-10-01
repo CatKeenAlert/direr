@@ -1,4 +1,5 @@
 <?php
+include_once('/var/www/share.com/develop.share.com/dev-direr/'.'Config.inc.php');
 echo '+++++++++++++++';
 include_once('FolderslistModel.class.php');
 function get_ahref_this_folder($this_folder, $arr_folders_list, $bool_allow)

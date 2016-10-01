@@ -1,5 +1,5 @@
 <?php
-require_once('./config.inc.php');
+include_once('/var/www/share.com/develop.share.com/dev-direr/'.'Config.inc.php');
 echo $APP_PATH;
 echo '<br>以下是目录下的内容列表： <br>';
 //这是列出当前目录简单情况的php文件,后续可把TA做成类，如同其文件名一样。

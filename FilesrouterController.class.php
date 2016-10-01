@@ -1,4 +1,5 @@
 <?php
+include_once('/var/www/share.com/develop.share.com/dev-direr/'.'Config.inc.php');
 echo '+++++++++++++++';
 include_once('SuffixeslistModel.class.php');
 function get_ahref_this_file($this_file, $arr_suffix_list, $bool_allow, $extension)

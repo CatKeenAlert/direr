@@ -1,4 +1,5 @@
 <?php
+include_once('/var/www/share.com/develop.share.com/dev-direr/'.'Config.inc.php');
 /*
  *该文件扮演的角色是后缀的储存和加工,可根据需要修改或扩展该文件,也可以在任何需要的地方引入该文件.
  *该文件的功能可以用数据库技术实现.
