@@ -16,8 +16,8 @@ if($Prooter != NULL && $pshowing != NULL && class_exists($Prooter) && method_exi
 
 define('URL_HOST', $_SERVER['SERVER_NAME']);
 define('ABS_WEB_DIR', $_SERVER['DOCUMENT_ROOT']);
-define('DEFAULT_SHOW_PATH', '');
-define('DEFAULT_NODE_NAME', 'index.php');
+define('DEFAULT_SHOW_PATH', '.');
+define('DEFAULT_NODE_NAME', '');
 $bool_allow_the_folders_list = true;
 $bool_allow_the_suffixes_list = true;
 class Node{
@@ -31,7 +31,15 @@ class Node{
         $this->node_name = $node_name;
         var_dump($parent_page_path);
         $this->parent_page_path = $parent_page_path;
-        $this->path_node_in_root = '/'.$this->parent_page_path.'/'.$this->node_name;
+        if(!($node_name === '' && empty($node_name))){
+            $this->path_node_in_root = '/'.$this->parent_page_path.'/'.$this->node_name;
+        }else{
+            $this->path_node_in_root = '/'.$this->parent_page_path;
+        }
+        $this->path_node_in_root= realpath($this->path_node_in_root);
+        if(substr($this->path_node_in_root, strlen($this->path_node_in_root)-1) === '/'){
+            $this->path_node_in_root = substr($this->path_node_in_root, 0, strlen($this->path_node_in_root)-2);
+        }
         var_dump($this->path_node_in_root);
         echo 'dirname($this->path_node_in_root): ';
         $this->node_entire_url = constant('URL_HOST').$this->path_node_in_root;
@@ -126,17 +134,22 @@ class File extends Node
     public function __construct($parent_page_path, $node_name){
         parent::__construct($parent_page_path, $node_name);
     }
+    public function openfile(){
+        header('Location: https://www.baidu.com');
+        //header('Location: '.realpath($_SERVER['SERVER_NAME'].'/'.$dir_page.path.'/'.$node_name));
+    }
+
 }
 
 
 
 if(empty($_GET['pp']) OR is_null($_GET['pp'])){
-    $dir_in_path = constant('DEFAULT_SHOW_PATH');
+    $dir_inroot_request = constant('DEFAULT_SHOW_PATH');
     echo 'I have not get the path: ';
-    var_dump($dir_in_path);
+    var_dump($dir_inroot_request);
 }else{
-    $dir_in_path = $_GET['pp'];
-    var_dump($dir_in_path);
+    $dir_inroot_request = $_GET['pp'];
+    var_dump($dir_inroot_request);
 };
 
 if(empty($_GET['nn']) OR is_null($_GET['nn'])){
@@ -144,9 +157,10 @@ if(empty($_GET['nn']) OR is_null($_GET['nn'])){
 }else{
     $node_name_request = $_GET['nn'];
 }
-
-if(is_dir($node_name_request)){
-    $dr = new DirRequesting($dir_in_path, $node_name_request);
+echo 'judge: ';
+var_dump(realpath($_SERVER['DOCUMENT_ROOT'].'/'.$dir_inroot_request.'/'.$node_name_request));
+if(is_dir(realpath($_SERVER['DOCUMENT_ROOT'].'/'.$dir_inroot_request.'/'.$node_name_request))){
+    $dr = new DirRequesting($dir_inroot_request, $node_name_request);
     $dr->table_head();
     foreach($dr->arrin as $name){
         $absnode = $dr->node_abs_path.'/'.$name;
@@ -154,8 +168,9 @@ if(is_dir($node_name_request)){
         $nd->tableout();
     }
     $dr->table_foot();
-    //$n = new Node($dir_in_path, $node_name_request);
+    //$n = new Node($dir_inroot_request, $node_name_request);
     var_dump($nd->arr_detail);
 }else{
-    $f = new File($dir_in_path, $node_name_request);
+    $f = new File($dir_inroot_request, $node_name_request);
+    $f->openfile();
 }
