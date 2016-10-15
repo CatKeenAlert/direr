@@ -26,18 +26,54 @@ if(is_dir($p.'/'.$nodeName)){
 return str_replace(' ', '+', $urlPrefix.'/'.$nodeName);
 }
 
+function generateNodeDetails($nodePath) {
+    $nodeDetailArray = is_link($nodePath) ? lstat($nodePath) : stat($nodePath);
+        $nodeDetails = '';
+        //$nodeDetails .= '<td>'
+        /*由于尚不明确的原因,$openstr要单独提出来求值,直接写入<td></td>中就会跳出<tr></tr>,可能于多层调用或字符连接有关.*/
+        $openStr = is_dir($nodePath) ? '进入目录' : '打开文件';
+        $nodeDetails .= '<td>'.$openStr.'</td>'."\n";
+        $nodeDetails .= '<td>'.$nodeDetailArray['size'].'<td>'."\n";
+        $nodeDetails .= '<td>'.$nodeDetailArray['ctime'].'<td>'."\n";
+        $nodeDetails .= '<td>'.$nodeDetailArray['mtime'].'<td>'."\n";
+        return $nodeDetails;
+}
+
 function generateTable(){
     global $p;
     $inners = scandir($p);
     echo '<table>'."\n";
+    echo "<thead><tr>
+<th>文件(夹)</th>
+<th>浏览</th>
+<th>文件大小</th>
+<th>创建时间</th>
+<th>修改时间</th>
+</tr></thead><tbody>";
     $hidePrefix = array('#', '-');
+    require_once('subStrByWidth.php');
     foreach($inners as $value){
         if(!in_array(substr($value, 0, 1), $hidePrefix)){
             $href = call_user_func('generateUrl', $value);
-            echo "<tr><td><a href= $href >".$value.'</a></td></tr>'."\n";
+            $tableStr = '';
+            $formatName = $value;
+            //$formatName = strlen(call_user_func('subStrbywidth', $value, 10));
+            $formatName = strlen($formatName) <= 11 ? $formatName : '···'.call_user_func('subStrbywidth', $value, 12);
+            /*
+            $formatName = (substr_count($formatName, '.') <= 2
+                           && $formatName != substr($formatName, strrpos($formatName, '.'))
+                           && $formatName != substr($formatName, strrpos(strrpos($formatName, '.'), '.')))
+                        ? $formatName
+                        : '···---'.substr($formatName, strrpos(strrpos($formatName, '.'), '.'));
+            */
+            //$tableStr .= "<tr><td><a href= $href >".$value.'</a></td>'."\n";
+            $tableStr .= "<tr><td><a href= $href >".$formatName.'</a></td>'."\n";
+            $tableStr .= call_user_func('generateNodeDetails', $p.'/'.$value);
+            $tableStr .= '</tr>'."\n";
+            echo $tableStr;
         }
     }
-echo '</table>';
+echo '</tbody></table>';
 }
 generateTable();
 echo '</body></html>';
