@@ -1,7 +1,7 @@
 <?PHP
 //$rodomStr = '一';
-//echo call_user_func('subStrbywidth', $rodomStr, 14);
-function subStrByWidth($str, $numLimitSpecial) {
+//echo call_user_func('subStrTailByWidth', $rodomStr, 14);
+function subStrTailByWidth($str, $numLimitSpecial) {
     $employIndex = mb_strlen($str, 'utf8') - 1;
     while
     (
