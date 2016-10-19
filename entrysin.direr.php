@@ -12,15 +12,13 @@ foreach($query as $key => $value){
     $GLOBALS['p'] = $value;
 }
 $p = $p ? realpath($p) : '/home/catkeenalert';
-//echo '<h3>Current Path ($p)'." is {$p}</h3>\n";
 echo '<h3>Current Full Path ($p) is: '.$p.'</h3>'."\n";
 
 function generateTable(){
     global $p;
     $inners = scandir($p);
     echo '<table>'."\n";
-    //echo "<thead><tr>
-    echo "<tr>
+    echo "<thead><tr>
 <!--<th>(头)文件(夹)名</th>-->
 <th>HeadOfFileName</th>
 <th>Type</th>
@@ -29,8 +27,7 @@ function generateTable(){
 <th>FileSizeOfNode</th>
 <th>CtimeOfNode</th>
 <th>MtimeOfNode</th>
-<!--</tr></thead><tbody>-->
-</tr><tbody>";
+</tr></thead><tbody>";
     $hidePrefix = array('#', '-');
     require_once('subStrTailByWidth.php');
     foreach($inners as $value){
@@ -73,8 +70,12 @@ function generateNodesDetailHtmlStr($nodePath, $href, $headName, $tailName) {
         $nodeDetails .= '<td>'.$nodeType.'</td>'."\n";
         $nodeDetails .= "<td><a href= $href >".$tailName.'</a></td>'."\n";
         $nodeDetails .= '<td>'.$nodeDetailArray['size'].'</td>'."\n";
-        $nodeDetails .= '<td>'.$nodeDetailArray['ctime'].'</td>'."\n";
-        $nodeDetails .= '<td>'.$nodeDetailArray['mtime'].'</td>'."\n";
+
+        include_once('generateTimeStr.php');
+        $ctimeStr = call_user_func('generatetimestr', $nodeDetailArray['ctime']);
+        $nodeDetails .= '<td>'.$ctimeStr.'</td>'."\n";
+        $mtimeStr = call_user_func('generatetimestr', $nodeDetailArray['mtime']);
+        $nodeDetails .= '<td>'.$mtimeStr.'</td>'."\n";
         $nodeDetails .= '</tr>'."\n";
         return $nodeDetails;
 }
