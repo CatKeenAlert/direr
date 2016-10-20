@@ -2,6 +2,11 @@
 print <<<HTML
 <html><head>
 <meta http-equiv = "progma" content = "no-cache" />
+<style>
+    body{
+        align: center;
+    }
+</style>
 </head><body>
 \n
 HTML;
@@ -19,14 +24,12 @@ function generateTable(){
     $inners = scandir($p);
     echo '<table>'."\n";
     echo "<thead><tr>
-<!--<th>(头)文件(夹)名</th>-->
-<th>HeadOfFileName</th>
-<th>Type</th>
-<!--<th>(尾)文件(夹)名</th>-->
-<th>TailOfFileName</th>
-<th>FileSizeOfNode</th>
-<th>CtimeOfNode</th>
-<th>MtimeOfNode</th>
+<th id='head-name-head'>HeadOfNodeName</th>
+<th id='typehead'>Type</th>
+<th class='head'>TailOfNodeName</th>
+<th class='head'>SizeOfNode</th>
+<th class='headtime'>CtimeOfNode</th>
+<th class='headtime'>MtimeOfNode</th>
 </tr></thead><tbody>";
     $hidePrefix = array('#', '-');
     require_once('subStrTailByWidth.php');
@@ -36,16 +39,18 @@ function generateTable(){
             $tailName = $value;
             $tailName = strlen($tailName) <= 11 ? $tailName : '···'.call_user_func('subStrTailByWidth', $tailName, 12);
             $headName = $value;
-            $headName = strlen($tailName) <= 11 ? $headName : substr($headName, 0, 10).'···';
+            $headName = strlen($headName) <= 11 ? $headName : substr($headName, 0, 11).'···';
             $tableStr = '';
             $tableStr .= call_user_func('generateNodesDetailHtmlStr', $p.'/'.$value, $href, $headName, $tailName);
             echo $tableStr;
         }
     }
-echo '</tbody></table>';
-echo '</body></html>';
+    echo '</tbody></table>';
 }
 call_user_func('generateTable');
+echo '<script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.slim.min.js"></script>';
+echo '<script src="style.css.js"></script>';
+echo '</body></html>';
 
 function generateUrl($nodeName){
 global $p;
@@ -65,17 +70,18 @@ function generateNodesDetailHtmlStr($nodePath, $href, $headName, $tailName) {
         $nodeDetails = '';
         //$nodeDetails .= '<td>'
         /*由于尚不明确的原因,$openstr要单独提出来求值,直接写入<td></td>中就会跳出<tr></tr>,可能于多层调用或字符连接有关.*/
+
         $nodeType = is_dir($nodePath) ? 'Fold' : 'Leaf';
-        $nodeDetails .= "<td><a href= $href >".$headName.'</a></td>'."\n";
-        $nodeDetails .= '<td>'.$nodeType.'</td>'."\n";
-        $nodeDetails .= "<td><a href= $href >".$tailName.'</a></td>'."\n";
-        $nodeDetails .= '<td>'.$nodeDetailArray['size'].'</td>'."\n";
+        $nodeDetails .= '<td><a class='.$nodeType.' href= '.$href.' >'.$headName.'</a></td>'."\n";
+        $nodeDetails .= '<td class="type">'.$nodeType.'</td>'."\n";
+        $nodeDetails .= '<td><a class='.$nodeType.' href= '.$href.' >'.$tailName.'</a></td>'."\n";
+        $nodeDetails .= '<td class="size">&nbsp;'.$nodeDetailArray['size'].'</td>'."\n";
 
         include_once('generateTimeStr.php');
         $ctimeStr = call_user_func('generatetimestr', $nodeDetailArray['ctime']);
-        $nodeDetails .= '<td>'.$ctimeStr.'</td>'."\n";
+        $nodeDetails .= '<td class="time">'.$ctimeStr.'</td>'."\n";
         $mtimeStr = call_user_func('generatetimestr', $nodeDetailArray['mtime']);
-        $nodeDetails .= '<td>'.$mtimeStr.'</td>'."\n";
+        $nodeDetails .= '<td class="time">'.$mtimeStr.'</td>'."\n";
         $nodeDetails .= '</tr>'."\n";
         return $nodeDetails;
 }
