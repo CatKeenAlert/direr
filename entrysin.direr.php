@@ -24,9 +24,9 @@ function generateTable(){
     $inners = scandir($p);
     echo '<table>'."\n";
     echo "<thead><tr>
-<th id='head-name-head'>HeadOfNodeName</th>
+<th id='head-name-head'>HeadNodeName</th>
 <th id='typehead'>Type</th>
-<th class='head'>TailOfNodeName</th>
+<th class='head'>TailNodeName</th>
 <th class='head'>SizeOfNode</th>
 <th class='headtime'>CtimeOfNode</th>
 <th class='headtime'>MtimeOfNode</th>
@@ -37,9 +37,9 @@ function generateTable(){
         if(!in_array(substr($value, 0, 1), $hidePrefix)){
             $href = call_user_func('generateUrl', $value);
             $tailName = $value;
-            $tailName = strlen($tailName) <= 11 ? $tailName : '···'.call_user_func('subStrTailByWidth', $tailName, 12);
+            $tailName = strlen($tailName) <= 11 ? $tailName : '<small>···&nbsp;</small>'.call_user_func('subStrTailByWidth', $tailName, 12);
             $headName = $value;
-            $headName = strlen($headName) <= 11 ? $headName : substr($headName, 0, 11).'···';
+            $headName = strlen($headName) <= 11 ? $headName : substr($headName, 0, 11).'<small>&nbsp;···</small>';
             $tableStr = '';
             $tableStr .= call_user_func('generateNodesDetailHtmlStr', $p.'/'.$value, $href, $headName, $tailName);
             echo $tableStr;

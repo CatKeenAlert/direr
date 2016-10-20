@@ -14,13 +14,13 @@ function generateTimeStr($stamp){
     $strSeconds = $seconds >= 10 ? $seconds : '0'.$seconds;
 
     if($days > 7){
-        return date('<b>M</b>,<b>d</b>,<b>Y</b>', $stamp);
+        return date('<b>M,</b><b>d,</b><b>Y</b>', $stamp);
     }else if($days){
-        return "<b>{$strDays}</b><span>D</span>,<b>{$strHours}</b><span>H ago</span>";
+        return "<b>{$strDays}</b><span>D,</span><b>{$strHours}</b><span>H ago</span>";
     }else if($hours){
-        return "<b>{$strHours}</b><span>H</span>,<b>{$strMinutes}</b><span>M ago</span>";
+        return "<b>{$strHours}</b><span>H,</span><b>{$strMinutes}</b><span>M ago</span>";
     }else if($minutes){
-        return "<b>{$strMinutes}</b><span>M</span>,<b>{$strSeconds}</b><span>S ago</span>";
+        return "<b>{$strMinutes}</b><span>M,</span><b>{$strSeconds}</b><span>S ago</span>";
     }else{
         return "<b>Less </b><b>than</b><b>1<span>M</span></b>";
     }
