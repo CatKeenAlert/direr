@@ -16,10 +16,20 @@ $p;
 foreach($query as $key => $value){
     $GLOBALS['p'] = $value;
 }
-$p = $p ? realpath($p) : '/home/catkeenalert';
-echo '<h3>Current Full Path ($p) is: '.$p.'</h3>'."\n";
+$p = $p ? realpath($p) : '/var/www/share.com/download.share.com';  //如果$_GET中p参数为空就为$p指定路径
+
+//if块代码实现在不先进入目录节点,而使用url中指定p参数为目标节点,而直接view该目标节点.
+if(!is_dir($p)) {
+    $nodeName = substr($p, strrpos($p, '/') + 1);
+    $p = substr($p, 0, strrpos($p, '/'));
+    header('Location: '.call_user_func('generateUrl', $nodeName));
+    exit;
+}
+
+call_user_func('generateTable');
 
 function generateTable(){
+    echo '<h3>Current Full Path ($p) is: '.$p.'</h3>'."\n";
     global $p;
     $inners = scandir($p);
     echo '<table>'."\n";
@@ -47,22 +57,22 @@ function generateTable(){
     }
     echo '</tbody></table>';
 }
-call_user_func('generateTable');
+
 echo '<script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.slim.min.js"></script>';
 echo '<script src="style.css.js"></script>';
 echo '</body></html>';
 
 function generateUrl($nodeName){
-global $p;
+    global $p;
+$urlPrefix = $_SERVER['SERVER_NAME'].substr($_SERVER['SCRIPT_NAME'], 0, strrpos($_SERVER['SCRIPT_NAME'], '/'));
 if(is_dir($p.'/'.$nodeName)){
-    $urlPrefix = "entrysin.direr.php?p=".$p;
-
+    $urlPrefix = 'http://'.$urlPrefix.'/'.'entrysin.direr.php?p='.$p;
 }else{
     $urlPrefix = strpos($p, $_SERVER['DOCUMENT_ROOT']) === 0 ?
                'http://'.$_SERVER['SERVER_NAME'].substr($p, strlen($_SERVER['DOCUMENT_ROOT']))
-             : 'ViewFileByMime.php?p='.$p;
-    }
-return str_replace(' ', '+', $urlPrefix.'/'.$nodeName);
+             : 'http://'.$urlPrefix.'/'.'ViewFileByMime.php?p='.$p;
+}
+return str_replace(' ', '+', $urlPrefix.'/'.$nodeName); exit();
 }
 
 function generateNodesDetailHtmlStr($nodePath, $href, $headName, $tailName) {
