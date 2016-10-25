@@ -29,6 +29,7 @@ if(!is_dir($p)) {
 call_user_func('generateTable');
 
 function generateTable(){
+    global $p;
     echo '<h3>Current Full Path ($p) is: '.$p.'</h3>'."\n";
     global $p;
     $inners = scandir($p);
