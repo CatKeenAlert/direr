@@ -65,6 +65,11 @@ echo '</body></html>';
 
 function generateUrl($nodeName){
     global $p;
+    //以下是如果某节点路径$p是以"/var/www/share.com/download.share.com/Manules/phpmanule/man/"开头的就生成以"file:///var/www/share.com/download.share.com/Manules/phpmanule/man/"为前缀的url地址.
+    if(0 === strpos($p, "/var/www/share.com/download.share.com/Manules/phpmanule/man/")){
+        return 'fileProtocalUrlGen.php?p='.$p.'/'.$nodeName;
+    }
+    //以上是如果某节点路径$p是以"/var/www/share.com/download.share.com/Manules/phpmanule/man/"开头的就生成以"file:///var/www/share.com/download.share.com/Manules/phpmanule/man/"为前缀的url地址.
 $urlPrefix = $_SERVER['SERVER_NAME'].substr($_SERVER['SCRIPT_NAME'], 0, strrpos($_SERVER['SCRIPT_NAME'], '/'));
 if(is_dir($p.'/'.$nodeName)){
     $urlPrefix = 'http://'.$urlPrefix.'/'.'entrysin.direr.php?p='.$p;
