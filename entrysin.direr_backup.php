@@ -1,6 +1,7 @@
 <?php
+echo　'hello';
 require_once('./config.inc.php');
-echo $pathDefault;
+echo $pathDefault; exit();
 print <<<HTML
 <html><head>
 <meta http-equiv = "progma" content = "no-cache" />
@@ -18,7 +19,7 @@ $p;
 foreach($query as $key => $value){
     $GLOBALS['p'] = $value;
 }
-$p = $p ? realpath($p) : $pathDefault;  //如果$_GET中p参数为空就为$p指定路径
+$p = $p ? realpath($p) : $pathDefault/;  //如果$_GET中p参数为空就为$p指定路径
 
 //if块代码实现在不先进入目录节点,而使用url中指定p参数为目标节点,而直接view该目标节点.
 if(!is_dir($p)) {

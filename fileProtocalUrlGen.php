@@ -1,4 +1,5 @@
 <?php
+require_once('./config.inc.php');
 print <<<HTML
 <!doctype html>
 <html lang="en">
@@ -8,7 +9,7 @@ print <<<HTML
     </head>
     <body>
 HTML;
-//echo "<a href='file:///var/www/share.com/download.share.com/Manules/phpmanule/man/res/about.html'>example-node</a>";
+//echo "<a href='file://".$pathDefault."/Manules/phpmanule/man/res/about.html'>example-node</a>";
 
 parse_str($_SERVER['QUERY_STRING'], $query);
 $p;
@@ -16,7 +17,7 @@ foreach($query as $key => $value){
     $GLOBALS['p'] = $value;
 }
 if(!isset($p)) exit('$p has not been definde before reference.');
-$p = $p ? realpath($p) : '/var/www/share.com/download.share.com/Manules/phpmanule/man/res/book.pdo.html';  //如果$_GET中p参数为空就为$p指定路径
+$p = $p ? realpath($p) : "{$pathDefault}/Manules/phpmanule/man/res/book.pdo.html";  //如果$_GET中p参数为空就为$p指定路径
 
 $searchTerm = end(explode('/', $p)); //exit($searchTerm);
 //exit((string)strrpos($searchTerm, '.'));
