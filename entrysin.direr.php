@@ -1,6 +1,5 @@
 <?php
 require_once('./config.inc.php');
-echo $pathDefault;
 print <<<HTML
 <html><head>
 <meta http-equiv = "progma" content = "no-cache" />
