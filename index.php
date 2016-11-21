@@ -1,6 +1,3 @@
-<?php
-require_once('./config.inc.php');
-print <<<HTML
 <html><head>
 <meta http-equiv = "progma" content = "no-cache" />
 <style>
@@ -9,9 +6,19 @@ print <<<HTML
     }
 </style>
 </head><body>
-\n
-HTML;
 
+    <table>
+    <thead><tr>
+<th id='head-name-head'>HeadNodeName</th>
+<th id='typehead'>Type</th>
+<th class='head'>TailNodeName</th>
+<th class='head'>SizeOfNode</th>
+<th class='headtime'>CtimeOfNode</th>
+<th class='headtime'>MtimeOfNode</th>
+</tr></thead><tbody>
+
+<?php
+require_once('./config.inc.php');
 parse_str($_SERVER['QUERY_STRING'], $query);
 $p;
 foreach($query as $key => $value){
@@ -34,15 +41,6 @@ function generateTable(){
     echo '<h3>Current Full Path ($p) is: '.$p.'</h3>'."\n";
     global $p;
     $inners = scandir($p);
-    echo '<table>'."\n";
-    echo "<thead><tr>
-<th id='head-name-head'>HeadNodeName</th>
-<th id='typehead'>Type</th>
-<th class='head'>TailNodeName</th>
-<th class='head'>SizeOfNode</th>
-<th class='headtime'>CtimeOfNode</th>
-<th class='headtime'>MtimeOfNode</th>
-</tr></thead><tbody>";
     $hidePrefix = array('#', '-');
     require_once('subStrTailByWidth.php');
     foreach($inners as $value){
@@ -57,12 +55,7 @@ function generateTable(){
             echo $tableStr;
         }
     }
-    echo '</tbody></table>';
 }
-
-echo '<script src="http://cdn.bootcss.com/jquery/3.1.1/jquery.slim.min.js"></script>';
-echo '<script src="style.css.js"></script>';
-echo '</body></html>';
 
 function generateUrl($nodeName){
     global $p;
@@ -73,7 +66,7 @@ function generateUrl($nodeName){
     //以上是如果某节点路径$p是以"{$pathDefault}/Manules/phpmanule/man/"开头的就生成以"file://{$pathDefault}/Manules/phpmanule/man/"为前缀的url地址.
 $urlPrefix = $_SERVER['SERVER_NAME'].substr($_SERVER['SCRIPT_NAME'], 0, strrpos($_SERVER['SCRIPT_NAME'], '/'));
 if(is_dir($p.'/'.$nodeName)){
-    $urlPrefix = 'http://'.$urlPrefix.'/'.'entrysin.direr.php?p='.$p;
+    $urlPrefix = 'http://'.$urlPrefix.'/'.substr($SCRIPT_NAME, (1 + strrpos($SCRIPT_NAME, '/'))).'?p='.$p;
 }else{
     $urlPrefix = strpos($p, $_SERVER['DOCUMENT_ROOT']) === 0 ?
                'http://'.$_SERVER['SERVER_NAME'].substr($p, strlen($_SERVER['DOCUMENT_ROOT']))
@@ -102,3 +95,8 @@ function generateNodesDetailHtmlStr($nodePath, $href, $headName, $tailName) {
         $nodeDetails .= '</tr>'."\n";
         return $nodeDetails;
 }
+?>
+</tbody></table>
+<script type="text/JavaScript" src="jquery.slim.min.js"></script>
+<script type="text/JavaScript" src="style.css.js"></script>
+</body></html>
